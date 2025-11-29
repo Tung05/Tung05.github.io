@@ -1,7 +1,9 @@
 ---
-title: "AI Thunderstorm Nowcasting Model"
+date: 2025-09-01
 layout: post
 ---
+
+[← Back to Projects](/projects/)
 
 ## Overview  
 During my role as a Software Developer Intern (June–September 2024), we developed an **AI-powered nowcasting model** to predict thunderstorm formation using radar data. The project involved building a full machine learning pipeline, optimizing model performance, and deploying a lightweight web-based interface.
