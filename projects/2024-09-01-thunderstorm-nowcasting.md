@@ -1,6 +1,6 @@
 ---
 date: 2025-09-01
-layout: post
+layout: page
 ---
 
 [← Back to Projects](/projects/)
