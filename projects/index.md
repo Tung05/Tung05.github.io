@@ -11,7 +11,7 @@ nav-order: 2
 - [CVE-2019-18634: sudo pwfeedback Buffer Overflow - Writeup](./cs367-cve-2019-18634.md)  
   _Analyzes and reproduces CVE-2019-18634, a critical buffer overflow vulnerability in `sudo` triggered by the `pwfeedback` feature._
 
-- - [Thunderstorm Nowcasting AI Model](./2024-09-01-thunderstorm-nowcasting.md)  
+- [Thunderstorm Nowcasting AI Model](./2024-09-01-thunderstorm-nowcasting.md)  
   _Built an AI thunderstorm nowcasting model to predict thunderstorms from radar data with 92% accuracy._
 
 - [Virtual Internship: Cybersecurity Simulation - Forage](./forage-cyber-simulation.md)
