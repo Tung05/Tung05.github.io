@@ -11,8 +11,11 @@ nav-order: 2
 - [CVE-2019-18634: sudo pwfeedback Buffer Overflow - Writeup](./cs367-cve-2019-18634.md)  
   _Analyzes and reproduces CVE-2019-18634, a critical buffer overflow vulnerability in `sudo` triggered by the `pwfeedback` feature._
 
+- - [Thunderstorm Nowcasting AI Model](./2024-09-01-thunderstorm-nowcasting.md)  
+  _Built an AI thunderstorm nowcasting model to predict thunderstorms from radar data with 92% accuracy._
+
 - [Virtual Internship: Cybersecurity Simulation - Forage](./forage-cyber-simulation.md)
-  _Virtual cybersecurity internship simulations at Mastercard & AIG, focusing on threat analysis, SOC workflows, and security awareness.
+  _Virtual cybersecurity internship simulations at Mastercard & AIG, focusing on threat analysis, SOC workflows, and security awareness._
 
 - [Backdoor Attacks in AI Models - Research Paper](./ai-backdoor-attacks.md)  
   _Research paper analyzing backdoor vulnerabilities in ML models, exploring Trojan attacks, BadNets, and proposing defense mechanisms like data vetting and adversarial retraining._
