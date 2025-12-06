@@ -5,7 +5,7 @@ layout: page
 
 [← Back to Projects](/projects/)
 
-# Lab: Kali (OpenVAS) → Metasploitable - Multi-vulnerability Remediation
+# Lab: Kali (OpenVAS/CIS Benchmark) → Metasploitable - Multi-vulnerability Remediation
 
 **Author:** Tung Nguyen  
 **Date:** 2025-11-05  
@@ -13,8 +13,16 @@ layout: page
 
 ---
 
-## Objective
-Perform discovery and vulnerability remediation on a Metasploitable VM using Greenbone/OpenVAS (GVM). Document each finding, investigation steps, remediation, verification, and artifacts so the work is reproducible and reviewable.
+## Summary
+This lab demonstrates the discovery and remediation of high-impact vulnerabilities on a Metasploitable 2 VM using Greenbone/OpenVAS (GVM) as the primary scanning tool. Given that Metasploitable 2 contains hundreds of intentionally vulnerable services, this project focuses on realistic and critical issues, guided by the CIS Ubuntu Linux Benchmark to prioritize remediation.
+
+Each vulnerability is documented with:
+- Pre-remediation evidence (OpenVAS scan, nmap, service testing, screenshots)
+- Root cause analysis
+- Remediation steps aligned with CIS guidance
+- Post-remediation verification
+
+This approach ensures reproducibility, demonstrates secure configuration practices, and aligns lab remediation with industry standards.
 
 ---
 
@@ -28,21 +36,32 @@ Perform discovery and vulnerability remediation on a Metasploitable VM using Gre
 
 ## Workflow Summary
 1. Boot Kali and Metasploitable VMs on an isolated host-only network.  
-2. Confirm target IP with host discovery (`nmap`).  
-3. Start GVM on Kali (`gvm-start`) and run a target scan via the GSA web UI.  
-4. Review scan results; triage vulnerabilities.  
-5. Inspect target VM configuration / services.  
-6. Remediate each vulnerability in turn.  
-7. Re-scan with OpenVAS and verify remediation.  
+2. Identify the target IP with host discovery (`nmap`).  
+3. Start Greenbone/OpenVAS (`gvm-start`) and run a full system scan.  
+4. Review OpenVAS results and map each finding to relevant **CIS Ubuntu Linux Benchmark** controls.  
+5. Prioritize vulnerabilities using CIS guidance (disable insecure services, remove backdoors, enforce authentication, update legacy software).  
+6. Investigate each finding on the Metasploitable VM (`inetd.conf`, service configs, version checks, credential testing).  
+7. Apply remediation according to CIS recommendations (disable service, remove package, enforce password, etc.).  
+8. Re-scan with OpenVAS and validate remediation (port closed, login blocked, service removed).  
+9. Document all evidence and before/after comparisons.
+
 
 ---
 
-## Table of Contents
+## Table of Contents (CIS Benchmark–Aligned)
+### 1.x – System Updates & Patch Management
+- [Vulnerability: vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vulnerability-vsftpd-2-3-4-backdoored-version-ports-21-6200)
+
+### 2.x – Services: Disable or remove unnecessary or insecure network services  
 - [Vulnerability: Ingreslock Backdoor (Port 1524)](#vulnerability-ingreslock-backdoor-port-1524)  
 - [Vulnerability: Rexec / r-services (Port 512)](#vulnerability-rexec-r-services-port-512)  
-- [Vulnerability: MySQL / MariaDB Default Credentials (Port 3306)](#vulnerability-mysql-mariadb-default-credentials-port-3306)
-- [Vulnerability: vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vulnerability-vsftpd-2-3-4-backdoored-version-ports-21-6200)
 - [Vulnerability: rlogin Passwordless Login (Port 513)](#vulnerability-rlogin-passwordless-login-port-513)
+
+### 3.x – Network Configuration & Attack Surface Reduction 
+- [PostgreSQL Default Remote Access (Port 5432)](#postgresql-default-remote-access-port-5432)
+
+### 5.x – Authentication & Account Security
+- [Vulnerability: MySQL / MariaDB Default Credentials (Port 3306)](#vulnerability-mysql-mariadb-default-credentials-port-3306)
 
 <!-- ---
 
@@ -189,7 +208,7 @@ The `rlogin` service on port 513 allowed remote login without requiring a passwo
 - Snippet of `/etc/inetd.conf` showing the malicious entry:
   ![inetd.conf with malicious entry](../images/rlogin-inetd-conf.png)
 - Successful attempt to use rlogin passwordless:
-  !![rlogin Passwordless success](../images/rlogin-access-success.png)
+  ![rlogin Passwordless success](../images/rlogin-access-success.png)
 
 **Root cause analysis:**  
 The Metasploitable machine had the legacy rlogind service enabled through inetd.

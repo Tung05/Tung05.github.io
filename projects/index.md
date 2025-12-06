@@ -6,7 +6,7 @@ nav-order: 2
 ---
 
 - [OpenVAS → Metasploitable lab](./2025-11-05-openvas-metasploitable.md)  
-  _Used Greenbone OpenVAS to detect and fix the Ingreslock backdoor vulnerability on Metasploitable._
+  _Used Greenbone OpenVAS, CIS Benchmark to detect and fix vulnerabilities on Metasploitable._
 
 - [CVE-2019-18634: sudo pwfeedback Buffer Overflow - Writeup](./cs367-cve-2019-18634.md)  
   _Analyzes and reproduces CVE-2019-18634, a critical buffer overflow vulnerability in `sudo` triggered by the `pwfeedback` feature._
