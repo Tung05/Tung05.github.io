@@ -48,20 +48,43 @@ This approach ensures reproducibility, demonstrates secure configuration practic
 
 ---
 
-## Table of Contents (CIS Benchmark–Aligned)
-### 1.x – System Updates & Patch Management
-- [Vulnerability: vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vulnerability-vsftpd-2-3-4-backdoored-version-ports-21-6200)
+## Table of Contents (CIS Benchmark Aligned)
 
-### 2.x – Services: Disable or remove unnecessary or insecure network services  
-- [Vulnerability: Ingreslock Backdoor (Port 1524)](#vulnerability-ingreslock-backdoor-port-1524)  
-- [Vulnerability: Rexec / r-services (Port 512)](#vulnerability-rexec-r-services-port-512)  
-- [Vulnerability: rlogin Passwordless Login (Port 513)](#vulnerability-rlogin-passwordless-login-port-513)
+### 1. Initial Setup
+*Ensures the system is configured securely from the start, including filesystem permissions, bootloader protection, and basic OS configuration.*  
+- *No vulnerabilities assessed in this category.*  
+  **Future Work: To be added in a later phase.**
 
-### 3.x – Network Configuration & Attack Surface Reduction 
-- [PostgreSQL Default Remote Access (Port 5432)](#postgresql-default-remote-access-port-5432)
+### 2. Services
+*Focuses on disabling or securing unnecessary, outdated, or insecure network services that expand the attack surface.*  
+- [Ingreslock Backdoor (Port 1524)](#ingreslock-backdoor-port-1524)  
+- [Rexec / r-services (Port 512)](#rexec-r-services-port-512)  
+- [rlogin Passwordless Login (Port 513)](#rlogin-passwordless-login-port-513)  
+- [vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vsftpd-2-3-4-backdoored-version-ports-21-6200)
 
-### 5.x – Authentication & Account Security
-- [Vulnerability: MySQL / MariaDB Default Credentials (Port 3306)](#vulnerability-mysql-mariadb-default-credentials-port-3306)
+### 3. Network Configuration
+*Ensures secure network settings, including proper access restrictions, TCP/UDP configurations, and limiting remote exposure.*  
+- [PostgreSQL Remote Access Enabled (Port 5432)](#postgresql-remote-access-enabled-port-5432)
+
+### 4. Host-Based Firewall
+*Controls inbound and outbound traffic using iptables, UFW, or nftables to minimize network exposure.*  
+- *Firewall configuration not evaluated in this lab.*  
+  **Future Work: Add firewall hardening recommendations.**
+
+### 5. Access Control
+*Focuses on securing accounts, permissions, authentication methods, and preventing unauthorized access.*  
+- [MySQL / MariaDB Default Credentials (Port 3306)](#mysql-mariadb-default-credentials-port-3306)
+
+### 6. Logging & Auditing
+*Ensures security-relevant events are logged, monitored, and protected from tampering.*  
+- *Not assessed in this phase of the project.*  
+  **Future Work: Evaluate syslog, auditd, and log permissions.**
+
+### 7. System Maintenance
+*Addresses patch management, file integrity, scheduled tasks, and overall system upkeep to reduce long-term risk.*  
+- *General system update and maintenance checks not included in current scope.*  
+  **Future Work: Add package updates and integrity verification analysis.**
+
 
 <!-- ---
 
