@@ -49,40 +49,29 @@ This approach ensures reproducibility, demonstrates secure configuration practic
 ---
 
 ## Table of Contents (CIS Benchmark Aligned)
-**1. Initial Setup**
-*Ensures the system is configured securely from the start, including filesystem permissions, bootloader protection, and basic OS configuration.*  
-- *No vulnerabilities assessed in this category.*  
-  **Future Work: To be added in a later phase.**
+**1. Initial Setup - Secure OS Defaults**
+- [Future Work!]()
 
-**2. Services**
-*Focuses on disabling or securing unnecessary, outdated, or insecure network services that expand the attack surface.*  
+**2. Services - Disable, Remove Insecure Services**
 - [Ingreslock Backdoor (Port 1524)](#ingreslock-backdoor-port-1524)  
 - [Rexec / r-services (Port 512)](#rexec-r-services-port-512)  
 - [rlogin Passwordless Login (Port 513)](#rlogin-passwordless-login-port-513)  
 - [vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vsftpd-2-3-4-backdoored-version-ports-21-6200)
+- [Distributed Ruby (dRuby/DRb) RCE (Port 8787)](#vulnerability-druby-rce-port-8787)
+**3. Network Configuration - Limit Remote Exposure**  
+- [Future Work!]()
 
-**3. Network Configuration**
-*Ensures secure network settings, including proper access restrictions, TCP/UDP configurations, and limiting remote exposure.*  
-- [PostgreSQL Remote Access Enabled (Port 5432)](#postgresql-remote-access-enabled-port-5432)
+**4. Host-Based Firewall - Traffic Filtering**
+- [Future Work!]()
 
-**4. Host-Based Firewall**
-*Controls inbound and outbound traffic using iptables, UFW, or nftables to minimize network exposure.*  
-- *Firewall configuration not evaluated in this lab.*  
-  **Future Work: Add firewall hardening recommendations.**
-
-**5. Access Control**
-*Focuses on securing accounts, permissions, authentication methods, and preventing unauthorized access.*  
+**5. Access Control - Authentication & Permissions**
 - [MySQL / MariaDB Default Credentials (Port 3306)](#mysql-mariadb-default-credentials-port-3306)
 
-**6. Logging & Auditing**
-*Ensures security-relevant events are logged, monitored, and protected from tampering.*  
-- *Not assessed in this phase of the project.*  
-  **Future Work: Evaluate syslog, auditd, and log permissions.**
+**6. Logging & Auditing - Event Monitoring**
+- [Future Work!]()
 
-**7. System Maintenance**
-*Addresses patch management, file integrity, scheduled tasks, and overall system upkeep to reduce long-term risk.*  
-- *General system update and maintenance checks not included in current scope.*  
-  **Future Work: Add package updates and integrity verification analysis.**
+**7. System Maintenance - Patching & Integrity**
+- [Future Work!]()
 
 
 <!-- ---
@@ -243,3 +232,41 @@ rlogin trusts remote hosts and uses plaintext communication, often allowing logi
 2. Reboot to apply the change.
 3. Scan again using nmap to make sure the port is closed and unable to attemp passwordless rlogin:
   ![rlogin Passwordless remediation success](../images/rlogin-test-after-rem.png)
+
+---
+
+### Vulnerability: Distributed Ruby (dRuby/DRb) Multiple RCE Vulnerabilities (Port 8787){#vulnerability-druby-rce-port-8787}
+**Severity:** High (CVSS 10.0)  
+**OpenVAS ID / Reference:** NVT – *Distributed Ruby (dRuby/DRb) Multiple RCE Vulnerabilities*
+
+**Description (short):**  
+Distributed Ruby (DRb) allows Ruby objects to communicate over a network.  
+By default, DRb does **not** restrict which clients may connect or what methods they can invoke.  
+When the service is exposed on a network interface without ACLs, `$SAFE` restrictions, or input validation, attackers can execute arbitrary Ruby expressions, including `syscall`, resulting in **remote code execution (RCE)**.
+
+**Evidence (pre-remediation):**  
+- OpenVAS finding and response from sending an invalid syscal:  
+  ![OpenVAS finding](../images/druby-openvas.png)
+- `nmap` scan showing DRb service exposed on port 8787:
+  ![Port 8787 open before remediation](../images/druby-nmap-showing-open.png)
+- Snippet of vulnerable DRb Ruby script `druby_timeserver.rb` running with no ACLs and low $SAFE level
+  ![DRb timeserver script](../images/druby-timeserver-rb-file.png)
+
+**Root cause analysis:**  
+The DRb service was running with insufficient security controls:
+- `$SAFE` level was only **1**, which does **not** restrict system calls or dangerous Ruby operations.
+- No DRb ACLs (`drb/acl`) were configured, allowing any remote host to connect.
+- No input sanitization or taint checking was applied.
+- The DRb service was exposed on `0.0.0.0:8787`, making it reachable from external networks.
+
+This configuration allowed the scanner to execute a malicious DRb request and receive a **syscall error trace**, proving arbitrary code execution was possible.
+
+**Remediation performed:**  
+1. Restricted DRb access using ACLs (`drb/acl`) to allow only trusted hosts.  
+2. Increased Ruby `$SAFE` level to **2** to block unsafe remote operations.  
+3. Rebound the DRb service to `127.0.0.1` to eliminate external exposure.
+_All changes are shown in the combined configuration below:_  
+![DRb hardening changes](../images/druby-remediation.png)
+4. Restarted the DRb service to apply the updated ACL and safety settings.
+5. Re-scanned using nmap and openVAS to confirm:
+![DRb port closed after remediation](../images/druby-nmap-closed.png)
