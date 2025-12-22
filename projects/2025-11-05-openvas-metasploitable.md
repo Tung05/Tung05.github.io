@@ -60,7 +60,7 @@ This approach ensures reproducibility, demonstrates secure configuration practic
 - [Distributed Ruby (dRuby/DRb) RCE (Port 8787)](#vulnerability-druby-rce-port-8787)
 
 **3. Network Configuration - Limit Remote Exposure**  
-- [Future Work!]()
+- [Telnet Unencrypted Cleartext Login (Port 23)](#telnet-cleartext-login-port-23)
 
 **4. Host-Based Firewall - Traffic Filtering**
 - [Future Work!]()
@@ -271,3 +271,44 @@ _All changes are shown in the combined configuration below:_
 4. Restarted the DRb service to apply the updated ACL and safety settings.
 5. Re-scanned using nmap and openVAS to confirm:
 ![DRb port closed after remediation](../images/druby-nmap-closed.png)
+
+---
+
+### Vulnerability: Telnet Unencrypted Cleartext Login (Port 23) {#telnet-cleartext-login-port-23}
+
+**Severity:** Medium (CVSS 4.8)
+**OpenVAS ID / Reference:** NVT – *Telnet Unencrypted Cleartext Login*  
+
+**Description (short):**  
+The Telnet service was running on the target host and allowed user authentication
+over an unencrypted connection. Telnet transmits credentials in cleartext, making
+them vulnerable to interception by any attacker capable of sniffing network traffic.
+
+**Evidence (pre-remediation):**  
+- OpenVAS finding reporting Telnet cleartext authentication:
+  ![OpenVAS Telnet finding](../images/telnet-openvas.png)
+- `nmap` scan confirming Telnet service exposed on port 23:
+  ![Telnet port 23 open](../images/telnet-nmap-open.png)
+- `Wireshark` showing that login, password is unencrypted and show as plain text:
+  ![Login not being encrypt](../images/telnet-wireshark.png)
+**Root cause analysis:**  
+Telnet is an outdated remote access protocol that does not provide encryption for
+authentication or session data. The service was enabled and listening on port 23,
+allowing credentials to be transmitted in plaintext. Modern security standards
+assume untrusted networks and require encrypted transport for remote administration.
+
+This configuration violates CIS Benchmark recommendations to disable insecure
+legacy services and minimize exposure to credential interception attacks.
+
+**Remediation performed:** 
+1. Identified the Telnet service entry managed by `inetd`.
+  ![`inetd.conf` with `telnet stream tcp nowait root /usr/sbin/tcpd /usr/sbin/in.telnetd`](../images/telnet-inetd-conf.png)
+2. Removed the Telnet service configuration from `/etc/inetd.conf` to prevent
+   `inetd` from spawning `in.telnetd` on incoming connections.
+3. Rebooted the system to ensure the service did not restart.
+4.  `nmap` scan confirming port 23 is no longer open:
+  ![Telnet port closed after remediation](../images/telnet-nmap-closed.png)
+5. Telnet connection rejected:
+  ![Connect using telnet rejected](../images/telnet-rejected.png)
+
+---
