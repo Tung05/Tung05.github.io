@@ -290,6 +290,7 @@ them vulnerable to interception by any attacker capable of sniffing network traf
   ![Telnet port 23 open](../images/telnet-nmap-open.png)
 - `Wireshark` showing that login, password is unencrypted and show as plain text:
   ![Login not being encrypt](../images/telnet-wireshark.png)
+
 **Root cause analysis:**  
 Telnet is an outdated remote access protocol that does not provide encryption for
 authentication or session data. The service was enabled and listening on port 23,
