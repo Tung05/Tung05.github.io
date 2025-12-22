@@ -275,7 +275,6 @@ _All changes are shown in the combined configuration below:_
 ---
 
 ### Vulnerability: Telnet Unencrypted Cleartext Login (Port 23) {#telnet-cleartext-login-port-23}
-
 **Severity:** Medium (CVSS 4.8)
 **OpenVAS ID / Reference:** NVT – *Telnet Unencrypted Cleartext Login*  
 
