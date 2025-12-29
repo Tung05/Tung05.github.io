@@ -58,9 +58,11 @@ This approach ensures reproducibility, demonstrates secure configuration practic
 - [rlogin Passwordless Login (Port 513)](#rlogin-passwordless-login-port-513)  
 - [vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vsftpd-2-3-4-backdoored-version-ports-21-6200)
 - [Distributed Ruby (dRuby/DRb) RCE (Port 8787)](#vulnerability-druby-rce-port-8787)
+- [Telnet Unencrypted Cleartext Login (Port 23)](#telnet-cleartext-login-port-23)
+- [Vulnerability: rsh Unencrypted Cleartext Login (Port 514)](#rsh-cleartext-login-port-514)
 
 **3. Network Configuration - Limit Remote Exposure**  
-- [Telnet Unencrypted Cleartext Login (Port 23)](#telnet-cleartext-login-port-23)
+- [Future Work!]()
 
 **4. Host-Based Firewall - Traffic Filtering**
 - [Future Work!]()
@@ -72,7 +74,7 @@ This approach ensures reproducibility, demonstrates secure configuration practic
 - [Future Work!]()
 
 **7. System Maintenance - Patching & Integrity**
-- [Future Work!]()
+- [SSL/TLS: OpenSSL CCS Injection Vulnerability (Port 5432)](#openssl-ccs-injection-port-5432)
 
 
 <!-- ---
@@ -304,7 +306,7 @@ legacy services and minimize exposure to credential interception attacks.
 1. Identified the Telnet service entry managed by `inetd`.
   ![`inetd.conf` with `telnet stream tcp nowait root /usr/sbin/tcpd /usr/sbin/in.telnetd`](../images/telnet-inetd-conf.png)
 2. Removed the Telnet service configuration from `/etc/inetd.conf` to prevent
-   `inetd` from spawning `in.telnetd` on incoming connections.
+  `inetd` from spawning `in.telnetd` on incoming connections.
 3. Rebooted the system to ensure the service did not restart.
 4.  `nmap` scan confirming port 23 is no longer open:
   ![Telnet port closed after remediation](../images/telnet-nmap-closed.png)
@@ -312,3 +314,84 @@ legacy services and minimize exposure to credential interception attacks.
   ![Connect using telnet rejected](../images/telnet-rejected.png)
 
 ---
+
+### Vulnerability: rsh Unencrypted Cleartext Login (Port 514) {#rsh-cleartext-login-port-514}
+**Severity:** High (CVSS 7.5)  
+**OpenVAS ID / Reference:** NVT – *rsh Unencrypted Cleartext Login*  
+
+**Description (short):**  
+The rsh (remote shell) service was running on the target host and allowed remote
+command execution over an unencrypted connection. The service was configured to
+permit passwordless authentication or trust-based access, exposing the system to
+unauthorized remote command execution and credential interception.
+
+**Evidence (pre-remediation):**  
+- OpenVAS finding reporting rsh cleartext authentication and passwordless access:
+  ![OpenVAS rsh finding](../images/rsh-openvas.png)
+- `nmap` scan confirming the rsh service (`shell`) was exposed on port 514/tcp:
+  ![rsh port 514 open](../images/rsh-nmap-open.png)
+
+**Root cause analysis:**  
+The rsh (remote shell) service is a legacy remote access protocol that does not
+provide encryption or secure authentication mechanisms. In this configuration,
+rsh was enabled via `inetd` and permitted remote command execution without a
+password or with default trust relationships, allowing unauthorized access.
+
+This configuration violates modern security standards and CIS Benchmark
+recommendations, which explicitly require disabling legacy cleartext protocols
+and enforcing encrypted, authenticated remote administration.
+
+**Remediation performed:**  
+1. Identified the rsh service entry managed by `inetd`.
+  ![Entry starting with Shell](../images/rsh-inetd-conf.png)
+2. Removed the rsh service configuration from `/etc/inetd.conf` to prevent
+  `inetd` from spawning `in.rshd`.
+3. Rebooted the system to ensure the rsh service did not restart.
+4. `nmap` scan confirming port 514/tcp is no longer open:
+  ![rsh port closed after remediation](../images/rsh-nmap-closed.png)
+
+---
+
+### Vulnerability: SSL/TLS OpenSSL CCS Injection Vulnerability (Port 5432) {#openssl-ccs-injection-port-5432}
+**Severity:** High (CVSS 7.4)  
+**CVE:** CVE-2014-0224  
+**OpenVAS ID / Reference:** NVT – *SSL/TLS: OpenSSL CCS Man in the Middle Security Bypass Vulnerability*
+
+**Description (short):**  
+The system was running a vulnerable version of OpenSSL that is susceptible to the
+ChangeCipherSpec (CCS) injection attack. This vulnerability allows a man-in-the-middle
+attacker to bypass SSL/TLS security by forcing the use of a zero-length master key,
+potentially allowing session hijacking and disclosure of sensitive information.
+
+**Evidence (pre-remediation):**  
+- OpenVAS finding reporting the OpenSSL CCS injection vulnerability:
+  ![OpenVAS OpenSSL CCS finding](../images/openssl-ccs-openvas.png)
+- `nmap` scan confirming PostgreSQL was exposed on port 5432/tcp and
+  capable of SSL/TLS communication:
+  ![PostgreSQL is using OpenSSL and exposing TLS](../images/openssl-nmap-confirm.png)
+- OpenSSL version check on the target host showing a vulnerable OpenSSL release:
+  ![OpenSSL version vulnerable](../images/openssl-local-confirm.png)
+
+**Root cause analysis:**  
+The installed OpenSSL library version was outdated and fell within the range of
+affected versions especially `0.9.8g` in this case. This
+versions do not properly validate ChangeCipherSpec messages during the TLS handshake.
+
+This issue exists due to insufficient patch management and failure to update
+cryptographic libraries in accordance with CIS Benchmark recommendations.
+
+**Remediation performed:**  
+Due to the intentionally vulnerable design of Metasploitable 2, traditional
+package-based patching of OpenSSL was not feasible. As a result, compensating
+controls aligned with CIS Benchmarks were implemented.
+
+1. Disabled SSL support in PostgreSQL to remove the vulnerable cryptographic
+   layer:
+  ![Set ssl to false](../images/openssl-postgresql-conf.png)
+2. Applied host-based firewall rules to restrict access to PostgreSQL (port 5432)
+   to trusted hosts only:
+  ![iptable updated to restrict access](../images/openssl-iptables.png)
+3. Restarted the PostgreSQL service to apply configuration changes
+4. `nmap` scan produced no SSL/TLS-related output on port 5432, indicating that PostgreSQL
+  was no longer advertising or accepting SSL/TLS connections
+  ![`nmap` with scripts not showing SSL/TLS content](../images/openssl-nmap-after.png)
