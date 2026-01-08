@@ -2,7 +2,7 @@
 date: 2025-11-05
 layout: page
 ---
-Debug
+
 [← Back to Projects](/projects/)
 
 # Lab: Kali (OpenVAS/CIS Benchmark) → Metasploitable - Multi-vulnerability Remediation
