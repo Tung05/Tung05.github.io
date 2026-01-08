@@ -59,13 +59,16 @@ This approach ensures reproducibility, demonstrates secure configuration practic
 - [vsftpd 2.3.4 Backdoored Version (Ports 21 & 6200)](#vsftpd-2-3-4-backdoored-version-ports-21-6200)
 - [Distributed Ruby (dRuby/DRb) RCE (Port 8787)](#vulnerability-druby-rce-port-8787)
 - [Telnet Unencrypted Cleartext Login (Port 23)](#telnet-cleartext-login-port-23)
-- [Vulnerability: rsh Unencrypted Cleartext Login (Port 514)](#rsh-cleartext-login-port-514)
+- [rsh Unencrypted Cleartext Login (Port 514)](#rsh-cleartext-login-port-514)
+- [FTP Unencrypted Cleartext Login (Port 2121)](#ftp-cleartext-login-port-2121)
+- [DistCC Remote Code Execution (Port 3632)](#distcc-rce-port-3632)
 
 **3. Network Configuration - Limit Remote Exposure**  
-- [Future Work!]()
+- Restricted PostgreSQL (Port 5432) to admin host
+  *(See Section 7: SSL/TLS OpenSSL CCS Injection Vulnerability for details)*
 
 **4. Host-Based Firewall - Traffic Filtering**
-- [Future Work!]()
+- Implemented iptables rules to restrict PostgreSQL (Port 5432) access to the admin host only
 
 **5. Access Control - Authentication & Permissions**
 - [MySQL / MariaDB Default Credentials (Port 3306)](#mysql-mariadb-default-credentials-port-3306)
@@ -352,6 +355,79 @@ and enforcing encrypted, authenticated remote administration.
 
 ---
 
+### Vulnerability: FTP Unencrypted Cleartext Login (Port 2121) {#ftp-cleartext-login-port-2121}
+**Severity:** Medium (CVSS 4.8)  
+**OpenVAS ID / Reference:** NVT – *FTP Unencrypted Cleartext Login*  
+
+**Description (short):**  
+The FTP service was running on the target host and allowed user authentication
+over an unencrypted connection. FTP transmits usernames and passwords in
+cleartext, allowing attackers to intercept credentials through network
+sniffing.
+
+This configuration violates CIS Benchmark recommendations to disable insecure
+legacy services and enforce encrypted alternatives for file transfer.
+
+**Evidence (pre-remediation):**  
+- OpenVAS finding reporting FTP cleartext authentication:
+  ![OpenVAS FTP finding](../images/ftp-openvas.png)
+- `nmap` scan confirming FTP service exposed on port 2121/tcp:
+  ![FTP port 2121 open](../images/ftp-nmap-open.png)
+- `Wireshark` capture showing FTP credentials transmitted in plaintext:
+  ![FTP cleartext credentials](../images/ftp-wireshark.png)
+
+**Root cause analysis:**  
+The FTP service was enabled with default configuration and did not enforce
+encryption. FTP lacks built-in cryptographic protections, making it unsuitable
+for use on untrusted networks.
+
+**Remediation performed:**  
+1. Identified the running FTP service (`vsftpd`) listening on port 2121.
+2. Stopped the FTP service to prevent further access.
+3. Removed the FTP server package to eliminate the service entirely.
+  ![Stop and remove FTP service](../images/ftp-remove.png)
+4. Rebooted the system to ensure the service did not restart.
+5. `nmap` scan confirming port 2121 is no longer open:
+  ![FTP port closed](../images/ftp-nmap-closed.png)
+
+---
+
+### Vulnerability: DistCC Remote Code Execution (Port 3632) {#distcc-rce-port-3632}
+**Severity:** High (CVSS 9.3)  
+**OpenVAS ID / Reference:** NVT – *DistCC RCE Vulnerability (CVE-2004-2687)*  
+
+**Description (short):**  
+The DistCC distributed compiler service was exposed on the network and allowed
+unauthenticated remote command execution. An attacker could execute arbitrary
+commands on the host without authentication, leading to full system compromise.
+
+This violates CIS Benchmark guidance to disable unnecessary services and reduce
+attack surface.
+
+**Evidence (pre-remediation):**  
+- OpenVAS finding reporting DistCC remote code execution vulnerability:
+  ![OpenVAS DistCC finding](../images/distcc-openvas.png)
+- `nmap` scan confirming DistCC service exposed on port 3632/tcp:
+  ![DistCC port 3632 open](../images/distcc-nmap-open.png)
+
+**Root cause analysis:**  
+DistCC was installed and running despite not being required for system
+operation. The service listens on a network port and accepts commands without
+authentication, making it a high-risk exposure.
+
+**Remediation performed:**  
+1. Identified the running DistCC service (`distccd`) listening on port 3632.
+2. Stopped the DistCC service to immediately prevent exploitation.
+3. Disabled DistCC from starting at boot.
+4. Removed the DistCC package from the system to permanently eliminate the
+   vulnerability.
+  ![DistCC package removed](../images/distcc-remove.png)
+5. Rebooted the system to confirm the service did not restart.
+- `nmap` scan confirming port 3632 is no longer open:
+  ![DistCC port closed](../images/distcc-nmap-closed.png)
+
+---
+
 ### Vulnerability: SSL/TLS OpenSSL CCS Injection Vulnerability (Port 5432) {#openssl-ccs-injection-port-5432}
 **Severity:** High (CVSS 7.4)  
 **CVE:** CVE-2014-0224  
@@ -395,3 +471,4 @@ controls aligned with CIS Benchmarks were implemented.
 4. `nmap` scan produced no SSL/TLS-related output on port 5432, indicating that PostgreSQL
   was no longer advertising or accepting SSL/TLS connections
   ![`nmap` with scripts not showing SSL/TLS content](../images/openssl-nmap-after.png)
+ 
