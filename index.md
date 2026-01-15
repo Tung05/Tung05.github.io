@@ -7,7 +7,7 @@ nav-order: 1
 
 `Hello, I'm Tung 👋`
 
-I’m a senior at the University of Massachusetts Amherst studying Computer Science.  
+I’m a senior (incoming Master's) at the University of Massachusetts Amherst studying Computer Science.  
 I’m passionate about **cybersecurity research**, **penetration testing**, and building **secure and efficient systems**.  
 This site showcases my **security labs**, **CTF writeups**, and **projects**.
 
@@ -29,10 +29,11 @@ This site showcases my **security labs**, **CTF writeups**, and **projects**.
 
 ## 🌟 Certificates
 
+- [**CompTIA Security+**]() -- Incoming / In Progress
+- [**MassCyberCenter's Cybersecurity Mentorship Program**](images/Certs/CyberCertficate-MassCyberCenter.pdf) -- Completed
 - [**Google Cybersecurity Certificate**](images/Certs/GoogleCybersecurity.pdf) -- Completed  
 - [**CodePath CYB102: Intermediate Cybersecurity**](images/Certs/CYB102_Codepath.pdf) -- Completed  
 - [**TryHackMe Cyber Security 101**](images/Certs/THM-PS23ZROUXA.pdf) -- Completed
-- [**CompTIA Security+**]() -- Incoming / In Progress
 
 ---
 
