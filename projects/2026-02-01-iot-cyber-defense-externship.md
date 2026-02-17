@@ -6,10 +6,6 @@ tags: [cybersecurity, ai, internship]
 
 [← Back to Projects](/projects/)
 
-{% if page.tags %}
-**Tags:** {{ page.tags | join: ", " }}
-{% endif %}
-
 ## Overview
 
 Participating in a hands-on IoT Cyber Defense externship focused on securing real-world IoT infrastructure for a simulated 500-room smart hotel environment. The program covers threat modeling, secure pipeline design, device identity management, encryption, replay attack prevention, monitoring, and AI-based anomaly detection.

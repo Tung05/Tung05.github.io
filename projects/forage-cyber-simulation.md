@@ -6,10 +6,6 @@ tags: [cybersecurity, internship]
 
 [← Back to Projects](/projects/)
 
-{% if page.tags %}
-**Tags:** {{ page.tags | join: ", " }}
-{% endif %}
-
 # Virtual Internships: Cybersecurity Simulations - Forage
 
 **Summary:** Completed hands-on virtual cybersecurity simulations at Mastercard and AIG to practice threat analysis, phishing detection, and SOC workflows.
