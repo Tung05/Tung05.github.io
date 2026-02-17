@@ -1,6 +1,7 @@
 ---
 date: 2025-09-01
 layout: page
+tags: [ai, machine-learning, academic]
 ---
 
 [← Back to Projects](/projects/)

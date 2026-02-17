@@ -1,6 +1,7 @@
 ---
 date: 2025-08-06
 layout: page
+tags: [cybersecurity, internship]
 ---
 
 [← Back to Projects](/projects/)

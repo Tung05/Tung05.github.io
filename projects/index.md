@@ -5,6 +5,9 @@ nav-include: true
 nav-order: 2
 ---
 
+- [IoT Cyber Defense Externship – Hydroficient (Extern)](./2026-02-01-iot-cyber-defense-externship.md)  
+  _Hands-on IoT security program covering device hardening, threat modeling, and ML-based anomaly detection._
+
 - [OpenVAS → Metasploitable lab](./2025-11-05-openvas-metasploitable.md)  
   _Used Greenbone OpenVAS, CIS Benchmark to detect and fix vulnerabilities on Metasploitable._
 

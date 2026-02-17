@@ -1,6 +1,7 @@
 ---
 date: 2025-11-05
 layout: page
+tags: [cybersecurity, defensive-security, lab]
 ---
 
 [← Back to Projects](/projects/)

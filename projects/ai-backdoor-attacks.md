@@ -1,6 +1,7 @@
 ---
 date: 2025-05-12
 layout: page
+tags: [ai, cybersecurity, research]
 ---
 
 [← Back to Projects](/projects/)
