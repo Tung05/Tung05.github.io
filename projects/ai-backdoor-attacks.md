@@ -6,6 +6,10 @@ tags: [ai, cybersecurity, research]
 
 [← Back to Projects](/projects/)
 
+{% if page.tags %}
+**Tags:** {{ page.tags | join: ", " }}
+{% endif %}
+
 # Backdoor Attacks in AI Models - Research Paper
 
 **Summary:** Researched vulnerabilities in ML models, identifying backdoor attacks and mitigation strategies.

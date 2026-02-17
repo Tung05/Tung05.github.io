@@ -6,6 +6,10 @@ tags: [cybersecurity, defensive-security, lab]
 
 [← Back to Projects](/projects/)
 
+{% if page.tags %}
+**Tags:** {{ page.tags | join: ", " }}
+{% endif %}
+
 # Lab: Kali (OpenVAS/CIS Benchmark) → Metasploitable - Multi-vulnerability Remediation
 
 **Author:** Tung Nguyen  
