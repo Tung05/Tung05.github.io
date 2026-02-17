@@ -1,6 +1,6 @@
 ---
 date: 2026-02-01
-layout: page
+layout: null
 tags: [cybersecurity, ai, internship]
 ---
 
