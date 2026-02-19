@@ -19,46 +19,85 @@ This externship simulates the responsibilities of a security engineer defending 
 ### Deliverable
 📄 [View Threat Model (PDF)](../images/Tung%20Nguyen%20-%20Threat%20Model%20.pdf)
 
+### Objective
+Develop a structured threat model for a simulated smart water management system supporting a 500-room IoT-enabled hotel.
+
 ### Work Completed
-- Applied the CIA Triad to IoT environments  
-- Analyzed six major IoT attack types  
-- Used STRIDE methodology to identify system vulnerabilities  
-- Delivered a professional threat model for a smart water management system  
+- Applied the CIA Triad to IoT infrastructure
+- Identified six primary IoT attack vectors
+- Used STRIDE methodology to systematically uncover vulnerabilities
+- Documented risks across authentication, message integrity, and device trust boundaries
 
 ### Key Skills
-- Threat modeling  
-- STRIDE framework  
-- Risk analysis  
-- Security architecture evaluation  
+- Threat modeling
+- STRIDE framework
+- Risk analysis
+- Security architecture evaluation
 
 ### Key Takeaway
-Understanding system architecture before implementing defenses is critical.  
-Threat modeling exposed vulnerabilities in authentication, message integrity, and device trust boundaries that were not obvious at first glance.
+Threat modeling forces clarity. Many vulnerabilities were not obvious until system boundaries and trust relationships were explicitly mapped.
 
 ---
 
 ## Project 2: Python for IoT Security 🔄 (In Progress)
 
-### Repository
-💻 [In Progress]()
+### Deliverable
+📄 [Download Sample Dataset](https://drive.google.com/file/d/1w_RAv-Gv0Oe6Dn-4y5dmNm1y3tbl5t91/view?usp=drive_link)
 
-### Work Completed
-- Parsed JSON-based IoT sensor data  
-- Used Pandas for data cleaning and validation  
-- Built scripts to analyze sensor anomalies  
+### Objective
+Built a mock Hydroficient HYDROLOGIC water sensor to simulate realistic IoT telemetry for downstream security testing and anomaly detection.
 
-### Key Skills
-- Python  
-- Pandas  
-- Data validation  
-- Security data analysis  
+### Implementation Highlights
+- Designed a `WaterSensor` class in Python
+- Generated ISO 8601 UTC timestamps
+- Implemented sequential counters for replay attack detection
+- Simulated realistic pressure and flow values
+- Injected controlled anomalies:
+  - Leak (abnormally high flow rate)
+  - Blockage (pressure imbalance)
+  - Stuck sensor (static readings)
+- Generated and exported 100 structured JSON records
+
+### Sample Output
+
+```json
+{
+  "device_id": "GM-HYDROLOGIC-01",
+  "timestamp": "2026-02-19T03:35:05.551904+00:00",
+  "counter": 6,
+  "pressure_upstream": 81.3,
+  "pressure_downstream": 75.9,
+  "flow_rate": 99.5
+}
+```
+
+---
+
+## Project 3: Building an Insecure MQTT Pipeline 🚧 (In Progress)
+
+### Objective
+Construct and exploit an intentionally insecure MQTT data pipeline to understand real-world interception, tampering, and replay risks in IoT environments.
+
+### Current Focus
+- Setting up local MQTT broker
+- Configuring publisher and subscriber clients
+- Transmitting unencrypted telemetry data
+- Preparing environment for packet interception and traffic analysis
+
+### Planned Exploration
+- Capturing MQTT traffic using packet analysis tools
+- Demonstrating message interception and tampering
+- Evaluating weaknesses in unauthenticated communication
+
+### Expected Skills
+- MQTT protocol fundamentals  
+- Network traffic analysis  
+- Packet inspection  
+- IoT communication security  
 
 ---
 
 ## Upcoming Projects (Coming Soon)
-
-### Project 3: Building an Insecure MQTT Pipeline
-Construct and exploit an insecure MQTT data pipeline to understand real-world interception risks.
 
 ### Project 4: Securing the Pipeline with TLS
 Implement TLS encryption and evaluate security-performance tradeoffs.
@@ -92,5 +131,5 @@ Apply Isolation Forest to detect spoofed readings, timing inconsistencies, and a
 
 ## Status
 
-Currently progressing through the program (Week 2 of 8).
+Currently progressing through the program (Week 3 of 8).
 Ongoing updates will be added as projects are completed.
