@@ -39,7 +39,7 @@ Threat modeling forces clarity. Many vulnerabilities were not obvious until syst
 
 ---
 
-## Project 2: Python for IoT Security 🔄 (In Progress)
+## Project 2: Python for IoT Security ✅
 
 ### Deliverable
 📄 [Download Sample Dataset](https://drive.google.com/file/d/1w_RAv-Gv0Oe6Dn-4y5dmNm1y3tbl5t91/view?usp=drive_link)
