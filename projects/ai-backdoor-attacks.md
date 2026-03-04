@@ -8,7 +8,7 @@ tags: [ai, cybersecurity, research]
 
 # Backdoor Attacks in AI Models - Research Paper
 
-**Summary:** Researched vulnerabilities in ML models, identifying backdoor attacks and mitigation strategies.
+**Summary:** Researched vulnerabilities in ML models, identifying backdoor attacks and mitigation strategies. Final project for CS360: Computer and Network Security.
 
 **Full Paper**
 📄 [Download Full Paper (PDF)](../images/Backdoor%20in%20AI.pdf)

@@ -73,34 +73,62 @@ Built a mock Hydroficient HYDROLOGIC water sensor to simulate realistic IoT tele
 
 ---
 
-## Project 3: Building an Insecure MQTT Pipeline 🚧 (In Progress)
+## Project 3: Building an Insecure MQTT Pipeline ✅
+
+### Deliverable
+📄 [Download Vulnerability Assessment of Insecure MQTT Pipeline](../images/Hydroficient%20-%20Vulnerability%20Assessment.pdf)
 
 ### Objective
 Construct and exploit an intentionally insecure MQTT data pipeline to understand real-world interception, tampering, and replay risks in IoT environments.
 
-### Current Focus
-- Setting up local MQTT broker
-- Configuring publisher and subscriber clients
-- Transmitting unencrypted telemetry data
-- Preparing environment for packet interception and traffic analysis
+### Work Completed  
+- Deployed a local Mosquitto MQTT broker  
+- Configured Python-based telemetry publisher and dashboard subscriber  
+- Transmitted unencrypted telemetry over default MQTT port 1883  
+- Intercepted live MQTT traffic using wildcard topic subscriptions (`#`)  
+- Demonstrated message injection and replay attack scenarios  
 
-### Planned Exploration
-- Capturing MQTT traffic using packet analysis tools
-- Demonstrating message interception and tampering
-- Evaluating weaknesses in unauthenticated communication
+### Security Findings  
+- No TLS encryption (all data transmitted in plain text)  
+- No client authentication required to connect to the broker  
+- No topic-level authorization controls  
+- No message integrity verification or replay protection  
 
-### Expected Skills
+### Key Skills  
 - MQTT protocol fundamentals  
-- Network traffic analysis  
-- Packet inspection  
-- IoT communication security  
+- Network traffic interception  
+- Publish/subscribe exploitation  
+- IoT attack surface analysis  
+
+### Key Takeaway  
+IoT systems are insecure by default. Without encryption, authentication, and access control, attackers can silently observe, manipulate, or disrupt operational data flows.
+
+---
+
+### Project 4: Securing the Pipeline with TLS 🚧 (In Progress)
+
+### Objective  
+Harden the insecure MQTT pipeline by implementing encryption, authentication, and access control to meet production security standards.
+
+### Work in Progress  
+- Configure Mosquitto to require TLS (port 8883)  
+- Generate and manage server and client certificates  
+- Enforce authenticated client connections  
+- Implement topic-based access control lists (ACLs)  
+- Evaluate performance and operational trade-offs of encryption  
+
+### Focus Areas  
+- Transport Layer Security (TLS) implementation  
+- Certificate lifecycle management  
+- Secure MQTT broker configuration  
+- Performance vs. security evaluation  
+
+### Expected Outcome  
+Transform a vulnerable IoT communication pipeline into a secure, encrypted, and access-controlled architecture suitable for real-world deployment.
 
 ---
 
 ## Upcoming Projects (Coming Soon)
-
-### Project 4: Securing the Pipeline with TLS
-Implement TLS encryption and evaluate security-performance tradeoffs.
 
 ### Project 5: Device Identity & Provisioning
 Implement certificate-based authentication and prevent rogue devices.
