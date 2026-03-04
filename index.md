@@ -29,7 +29,7 @@ This site showcases my **security labs**, **CTF writeups**, and **projects**.
 
 ## 🌟 Certificates
 
-- [**CompTIA Security+**](images/Certs/CompTIA%20Security+%20ce%20certificate.pdf) -- Completed
+- [**CompTIA Security+**](images/Certs/CompTIA_Security+_Certificate.pdf) -- Completed
 - [**MassCyberCenter's Cybersecurity Mentorship Program**](images/Certs/CyberCertficate-MassCyberCenter.pdf) -- Completed
 - [**Google Cybersecurity Certificate**](images/Certs/GoogleCybersecurity.pdf) -- Completed  
 - [**CodePath CYB102: Intermediate Cybersecurity**](images/Certs/CYB102_Codepath.pdf) -- Completed  
