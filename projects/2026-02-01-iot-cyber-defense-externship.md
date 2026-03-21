@@ -8,9 +8,48 @@ tags: [cybersecurity, ai, internship]
 
 ## Overview
 
-Participating in a hands-on IoT Cyber Defense externship focused on securing real-world IoT infrastructure for a simulated 500-room smart hotel environment. The program covers threat modeling, secure pipeline design, device identity management, encryption, replay attack prevention, monitoring, and AI-based anomaly detection.
+Completed a hands-on IoT Cyber Defense externship focused on securing real-world IoT infrastructure for a simulated 500-room smart hotel environment. This program covered threat modeling, secure pipeline design, device identity, encryption, replay attack prevention, monitoring, and AI-based anomaly detection.
 
-This externship simulates the responsibilities of a security engineer defending production IoT systems.
+The externship simulates the responsibilities of a security engineer defending production-grade IoT systems, with an emphasis on both offensive testing and defensive implementation.
+
+---
+
+## Final Presentation 🎤
+
+### Deliverable
+📄 [View Final Presentation (PDF)](../images/Extern_Presentation.pdf)
+
+### Key Highlights
+- Walked through the full attack lifecycle:
+  - Eavesdropping on insecure MQTT traffic  
+  - Message injection and data manipulation  
+  - Replay attack execution  
+- Demonstrated how each attack was successfully mitigated using:
+  - TLS encryption  
+  - Mutual TLS (mTLS) authentication   
+  - Timestamp and counter-based replay protection  
+- Showcased a real-time security dashboard for monitoring IoT telemetry  
+- Presented AI-based anomaly detection using Isolation Forest  
+
+### Outcome
+- Achieved **100% attack prevention** after implementing security controls  
+- Transformed an insecure IoT pipeline into a production-ready secure system  
+- Demonstrated practical security engineering skills across the full stack  
+
+### Key Takeaway
+Effective IoT security requires layered defenses — encryption, identity, validation, and monitoring must work together to fully protect systems.
+
+---
+
+## Live IoT Security Dashboard
+
+![IoT Security Dashboard](../images/IoT_Dashboard.png)
+
+Real-time security dashboard built with Streamlit to monitor device telemetry, detect anomalies, and visualize system health across the IoT pipeline.
+
+- Live flow rate and pressure tracking  
+- Automated anomaly detection alerts  
+- Detection of leaks, spoofed data, and stuck sensors  
 
 ---
 
@@ -105,59 +144,116 @@ IoT systems are insecure by default. Without encryption, authentication, and acc
 
 ---
 
-### Project 4: Securing the Pipeline with TLS 🚧 (In Progress)
+### Project 4: Securing the Pipeline with TLS ✅
+
+### Deliverable
+📄 [Download Secure MQTT Configuration & TLS Setup](../images/Security%20Assessment%20Report.pdf)
 
 ### Objective  
-Harden the insecure MQTT pipeline by implementing encryption, authentication, and access control to meet production security standards.
+Harden the MQTT pipeline using encryption, authentication, and access control.
 
-### Work in Progress  
-- Configure Mosquitto to require TLS (port 8883)  
-- Generate and manage server and client certificates  
-- Enforce authenticated client connections  
-- Implement topic-based access control lists (ACLs)  
-- Evaluate performance and operational trade-offs of encryption  
+### Implementation Highlights  
+- Configured Mosquitto to enforce TLS (port 8883)  
+- Generated and managed X.509 certificates  
+- Implemented TLS for device authentication   
 
-### Focus Areas  
-- Transport Layer Security (TLS) implementation  
-- Certificate lifecycle management  
-- Secure MQTT broker configuration  
-- Performance vs. security evaluation  
-
-### Expected Outcome  
-Transform a vulnerable IoT communication pipeline into a secure, encrypted, and access-controlled architecture suitable for real-world deployment.
+### Key Takeaway  
+Strong encryption and identity enforcement transform MQTT into a secure communication layer.
 
 ---
 
-## Upcoming Projects (Coming Soon)
+## Project 5: Device Identity & Secure Provisioning ✅
 
-### Project 5: Device Identity & Provisioning
-Implement certificate-based authentication and prevent rogue devices.
+### Deliverable
+📄 [Download Device Identity & Provisioning Report](../images/Provisioning%20Policy.pdf)
 
-### Project 6: Replay Attack Simulation & Defense
-Simulate replay attacks and implement timestamp and counter-based defenses.
+### Objective  
+Prevent rogue device access using certificate-based identity.
 
-### Project 7: Real-Time Security Dashboard
-Build a live security monitoring dashboard using Streamlit.
+### Work Completed  
+- Implemented unique client certificates per device  
+- Established PKI-based identity verification  
+- Blocked unauthorized device connection attempts  
 
-### Project 8 (Optional): AI-Powered Anomaly Detection
-Apply Isolation Forest to detect spoofed readings, timing inconsistencies, and anomalous IoT behavior.
+### Key Takeaway  
+Device identity is critical to preventing impersonation attacks.
+
+---
+
+## Project 6: Replay Attack Simulation & Defense ✅
+
+### Deliverable
+📄 [Download Replay Attack Analysis](../images/Replay_attack_report.pdf)
+
+### Objective  
+Simulate replay attacks and implement detection mechanisms.
+
+### Work Completed  
+- Replayed captured MQTT messages  
+- Implemented timestamp + counter validation  
+- Rejected duplicate and stale messages  
+
+### Key Takeaway  
+Replay protection requires both time-based and sequence-based validation.
+
+---
+
+## Project 7: Real-Time Security Dashboard ✅
+
+### Deliverable
+📄 [View Dashboard Demo / Screenshots](../images/IoT_Dashboard.png)
+
+### Objective  
+Build a live monitoring system for IoT telemetry.
+
+### Implementation Highlights  
+- Built dashboard using Streamlit  
+- Visualized real-time telemetry and anomalies  
+- Highlighted suspicious patterns  
+
+### Key Takeaway  
+Real-time visibility is essential for detecting and responding to threats.
+
+---
+
+## Project 8: AI-Based Anomaly Detection ✅
+
+### Deliverable
+📄 [View Anomaly Detection Report](https://docs.google.com/document/d/1U6LYfeIW0HG0V-fqeoWL2PGpLZcXECIJ5P5jRoELqis/edit?usp=sharing)
+
+### Objective  
+Detect abnormal IoT behavior using machine learning.
+
+### Implementation Highlights  
+- Applied Isolation Forest  
+- Detected spoofed data and abnormal patterns  
+- Evaluated model performance on injected anomalies  
+
+### Key Takeaway  
+AI enables detection of complex, non-obvious attack patterns.
 
 ---
 
 ## Technologies Used
+- Python  
+- Pandas  
+- MQTT (Mosquitto)  
+- TLS / mTLS  
+- X.509 Certificates  
+- Streamlit  
+- Isolation Forest  
+- STRIDE Threat Modeling  
 
-- Python
-- Pandas
-- MQTT
-- TLS
-- X.509 Certificates
-- Streamlit
-- Isolation Forest (Machine Learning)
-- STRIDE Threat Modeling
+---
+
+## Final Outcome
+
+- Built and exploited insecure IoT systems  
+- Implemented full-stack security defenses  
+- Achieved **100% attack mitigation**  
+- Developed monitoring and AI-based detection  
 
 ---
 
 ## Status
-
-Currently progressing through the program (Week 3 of 8).
-Ongoing updates will be added as projects are completed.
+✅ Completed (All 8 Projects)
